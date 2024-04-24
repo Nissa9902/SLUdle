@@ -52,8 +52,7 @@ public class SecretWord {
     // Method to update letter tiles to correct colors (for GUI implementation)
     // This method would typically be used to visually represent the correctness of each letter in the guessed word
     public void updateLetterTiles(String guess) {
-        // Implementation would vary depending on the GUI framework used
-        // For example, you might update the color of each letter tile based on its correctness
+        // Implementation depending on the GUI framework used
     }
 
     // Getter method to retrieve the secret word (for debugging or display purposes)
