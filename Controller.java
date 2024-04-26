@@ -2,10 +2,11 @@ import java.util.ArrayList;
 
 public class Controller{
     private ArrayList<Observer> observersArr; //BoardPanel, Keyboard
-    //private SecretWord secretWord;
+    private SecretWord secretWord;
 
-    public Controller(String secretWord){
+    public Controller(SecretWord secretWord){
         this.observersArr = new ArrayList<Observer>();
+        this.secretWord = secretWord;
     }
 
     public void register(Observer o){

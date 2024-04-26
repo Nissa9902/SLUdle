@@ -10,13 +10,13 @@ public class GameDriver{
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Start Button Pressed");
 
-                String secretWord = "secret";
+                SecretWord secretWord = new SecretWord("WordBank1.txt");
                 Controller c = new Controller(secretWord);
-
+                System.out.println(secretWord);
                 config.setVisible(false);
                 config.dispose();
 
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", 5, c, "BASIC", config.getDifficulty());
+                SLUdleFrame frame = new SLUdleFrame ("SLUdle", 5, c, "BASIC", "NORMAL");
             }
          };
 

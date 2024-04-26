@@ -6,11 +6,20 @@ import java.util.Random;
 
 public class SecretWord {
     private String secretWord;
+    private ArrayList<Character> contains;
+    private ArrayList<Character> invalid;
+    private char[] found;
 
     // Enumeration to represent game modes
     public enum GameMode {
         NORMAL,
         SLU
+    }
+
+    public SecretWord(String filename) {
+        this.secretWord = chooseRandomWord(filename);
+        this.contains = new ArrayList<Character>();
+        this.found = new char[secretWord.length()];
     }
 
     // Constructor: Choose a random word from the provided word bank file based on the selected mode
@@ -77,13 +86,41 @@ public class SecretWord {
         return true;
     }
 
-    // Method to update letter tiles to correct colors based on the guessed word
-    public void updateLetterTiles(String guess, LetterTile[] letterTiles) {
-        // Implementation to update letter tiles based on guessed word
+    //basic guess method, not following mode or difficulty settings
+    public boolean guess(LetterTile[] guess){
+        //guess is not a real word or not the correct length
+        if(!isValidGuess(guess)){
+            return false;
+        }
+        boolean result = true;
+
+        for(int i = 0; i < guess.length; i++){
+            if(guess[i].getLetter() == secretWord.charAt(i)){
+                guess[i].setStatus("correct");
+                found[i] = guess[i].getLetter();
+
+            } else if(secretWord.contains(String.valueOf(guess[i].getLetter()))){
+                guess[i].setStatus("contains");
+                contains.add(guess[i].getLetter());
+
+                result = false;
+            } else {
+                guess[i].setStatus("incorrect");
+                invalid.add(guess[i].getLetter());
+                
+                result = false;
+            }
+        }
+
+        return result;
     }
 
     // Getter method to retrieve the secret word
     public String getSecretWord() {
+        return secretWord;
+    }
+
+    public String toString(){
         return secretWord;
     }
 }

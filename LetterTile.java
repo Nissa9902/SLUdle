@@ -55,6 +55,10 @@ public class LetterTile implements Icon{
         this.letter = letter;
     }
 
+    public char getLetter(){
+        return letter;
+    }
+
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         //get graphics context
