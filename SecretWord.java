@@ -88,9 +88,3 @@ public class SecretWord {
     }
 }
 
-
-    // Getter method to retrieve the secret word (for debugging or display purposes)
-    public String getSecretWord() {
-        return secretWord;
-    }
-}

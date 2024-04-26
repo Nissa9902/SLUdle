@@ -6,8 +6,9 @@ import javax.swing.Icon;
 
 public class LetterTile implements Icon{
     private char letter;
-    private String status;
-    private Color iconColor;
+    protected String status;
+    protected Color iconColor;
+    protected Color textColor;
     private int width;
     private int thickness;
 
@@ -27,14 +28,26 @@ public class LetterTile implements Icon{
 
     public void setStatus(String status){
         this.status = status;
-        if(status.equals("incorrect") || status.equals("unchecked")){
+        if(status.equals("incorrect")){
             this.iconColor = new Color(120, 124, 127); //dark gray
+            this.textColor = Color.WHITE;
+
         } else if (status.equals("correct")){
             this.iconColor = new Color(108, 169, 101); //green
+            this.textColor = Color.WHITE;
+
         } else if(status.equals("contains")){
             this.iconColor = new Color(200, 182, 83); //yellow
+            this.textColor = Color.WHITE;
+
         } else if(status.equals("empty")){
+
             this.iconColor = Color.WHITE;
+            this.textColor = Color.WHITE;
+
+        } else if(status.equals("unchecked")){
+            this.iconColor = Color.WHITE;
+            this.textColor = new Color(120, 124, 127);;
         }
     }
 
@@ -59,7 +72,7 @@ public class LetterTile implements Icon{
 		g2.fill(r1); //paint background
 
         //Add text
-		g2.setPaint(Color.WHITE);
+		g2.setPaint(textColor);
         Font f = new Font("Clear Sans", Font.BOLD, 40);
         FontMetrics fm   = g.getFontMetrics(f);
 		String l = String.valueOf(letter);
