@@ -46,7 +46,7 @@ public class Keyboard extends JPanel implements Observer {
 
     @Override
     public void update(LetterTile[] guess, boolean isHard) {
-        // Update key colors based on the guess
+        // Update key colors based on the guess made
         for (LetterTile tile : guess) {
             updateKeyColor(tile.getLetter(), getColorForStatus(tile.getStatus()));
         }
@@ -57,7 +57,7 @@ public class Keyboard extends JPanel implements Observer {
             case "correct":
                 return new Color(0, 61, 165); // SLU Blue
             case "contains":
-                return new Color(237, 139, 0); // Oriflamme Orange
+                return new Color(237, 139, 0); //  Orange
             case "incorrect":
                 return new Color(120, 124, 127); // Dark gray
             default:
