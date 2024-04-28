@@ -8,6 +8,7 @@ public class SecretWord {
     private String secretWord;
     private ArrayList<Character> contains;
     private ArrayList<Character> invalid;
+    private ArrayList<String> wordBank;
     private char[] found;
 
     // Enumeration to represent game modes
@@ -25,12 +26,15 @@ public class SecretWord {
     // Constructor: Choose a random word from the provided word bank file based on the selected mode
     public SecretWord(String filename, GameMode mode) {
         if (mode == GameMode.NORMAL) {
-            this.secretWord = chooseRandomWord(filename);
+            this.wordBank= readWordBank(filename);
+            this.secretWord = chooseRandomWord();
         } else if (mode == GameMode.SLU) {
-            this.secretWord = chooseRandomSLUWord(filename);
+            this.wordBank= readWordBank(filename);
+            this.secretWord = chooseRandomSLUWord();
         }
     }
 
+    
     // Method to choose a random 5-letter word from the word bank file for normal mode
     private String chooseRandomWord(String filename) {
         ArrayList<String> wordBank = readWordBank(filename);
@@ -84,6 +88,10 @@ public class SecretWord {
             }
         }
         return true;
+    }
+     // method to check if the guessed word is in the Word Bank
+    private boolean WordInBank (String guess){
+        return wordBank. contains (guess); 
     }
 
     //basic guess method, not following mode or difficulty settings
