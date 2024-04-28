@@ -79,14 +79,15 @@ public class BoardPanel extends JPanel implements Observer{//implements observer
     }
 
     @Override
-    public void update() { //might move some of this logic to SLUdleFrame
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(LetterTile guess[], boolean isHard) { //might move some of this logic to SLUdleFrame
+
         //called on enter
         //guess() should update tile statuses and return true or false
         //if true (win) display congrats, record and display stats for current session, reset board and button panel
         //if false check if on last row
             //if on last row (loss) display loss, record and display stats for current session, reset board and button panel
             //if not, update current row
+
+        
     }
 }

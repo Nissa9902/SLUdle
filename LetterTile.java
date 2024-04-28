@@ -59,6 +59,10 @@ public class LetterTile implements Icon{
         return letter;
     }
 
+    public String getStatus(){
+        return status;
+    }
+
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         //get graphics context

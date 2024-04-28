@@ -3,10 +3,12 @@ import java.util.ArrayList;
 public class Controller{
     private ArrayList<Observer> observersArr; //BoardPanel, Keyboard
     private SecretWord secretWord;
+    private boolean isHard;
 
-    public Controller(SecretWord secretWord){
+    public Controller(SecretWord secretWord, boolean isHard){
         this.observersArr = new ArrayList<Observer>();
         this.secretWord = secretWord;
+        this.isHard = isHard;
     }
 
     public void register(Observer o){
@@ -21,9 +23,9 @@ public class Controller{
          }
     }
 
-    public void notifyObservers(){
+    public void notifyObservers(LetterTile guess[], boolean isHard){
         for(Observer o: observersArr){
-            o.update();
+            o.update(guess, isHard);
         }
     }
 }

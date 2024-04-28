@@ -10,13 +10,18 @@ public class GameDriver{
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Start Button Pressed");
 
-                SecretWord secretWord = new SecretWord("WordBank1.txt");
-                Controller c = new Controller(secretWord);
+                boolean isHard = config.getDifficulty().equals("HARD");
+                String mode = config.getMode();
+
+                //Normal Word Bank via https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt
+                SecretWord secretWord = new SecretWord("NormalWordBank.txt");//defaulting to Normal mode for Alpha v
+
                 System.out.println(secretWord);
                 config.setVisible(false);
                 config.dispose();
 
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", 5, c, "BASIC", "NORMAL");
+                Controller c = new Controller(secretWord, false); //hard mode off temporarily
+                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, c, "BASIC", false);
             }
          };
 

@@ -1,43 +1,53 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class SecretWord {
     private String secretWord;
-    private ArrayList<Character> contains;
-    private ArrayList<Character> invalid;
     private ArrayList<String> wordBank;
-    private char[] found;
+    private List<String> dictionary;
 
-    // Enumeration to represent game modes
+    /* Enumeration to represent game modes
     public enum GameMode {
         NORMAL,
         SLU
-    }
-
-    public SecretWord(String filename) {
-        this.secretWord = chooseRandomWord(filename);
-        this.contains = new ArrayList<Character>();
-        this.found = new char[secretWord.length()];
-    }
+    }*/
 
     // Constructor: Choose a random word from the provided word bank file based on the selected mode
-    public SecretWord(String filename, GameMode mode) {
-        if (mode == GameMode.NORMAL) {
-            this.wordBank= readWordBank(filename);
-            this.secretWord = chooseRandomWord();
-        } else if (mode == GameMode.SLU) {
-            this.wordBank= readWordBank(filename);
-            this.secretWord = chooseRandomSLUWord();
+    public SecretWord(String filename) {
+        this.wordBank = readWordBank(filename);
+        this.secretWord = chooseRandomWord();
+        this.dictionary = new ArrayList<String>();
+
+        try {
+            //dictionary file via https://github.com/dwyl/english-words
+            File dict = new File("dictionary.txt");
+            Scanner in = new Scanner(dict);
+            while(in.hasNextLine()){
+                String line = in.nextLine();
+                dictionary.add(line);
+            }
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
+        
     }
 
-    
-    // Method to choose a random 5-letter word from the word bank file for normal mode
-    private String chooseRandomWord(String filename) {
-        ArrayList<String> wordBank = readWordBank(filename);
+    public int length(){
+        return secretWord.length();
+    }
+
+    /* Method to choose a random 5-letter word from the word bank file for normal mode
+    private String chooseRandomWord() {
         if (wordBank.isEmpty()) {
             System.out.println("Error: Empty word bank.");
             return ""; // Return an empty string in case of error
@@ -48,11 +58,10 @@ public class SecretWord {
             word = wordBank.get(rand.nextInt(wordBank.size()));
         } while (word.length() != 5); // Ensure the chosen word is 5 letters long
         return word;
-    }
+    }*/
 
-    // Method to choose a random SLU-related word from the word bank file for SLU mode
-    private String chooseRandomSLUWord(String filename) {
-        ArrayList<String> wordBank = readWordBank(filename);
+    //Method to choose a random SLU-related word from the word bank file for SLU mode
+    private String chooseRandomWord(){
         if (wordBank.isEmpty()) {
             System.out.println("Error: Empty word bank.");
             return ""; // Return an empty string in case of error
@@ -75,52 +84,15 @@ public class SecretWord {
         return words;
     }
 
-    // Method to validate the guessed word
-    public boolean isValidGuess(String guess) {
-        return guess.length() == secretWord.length() && isValidForm(guess);
+    //method to check if the guessed word is in the Word Bank
+    public boolean isInBank(String guess){
+        return wordBank.contains(guess); 
     }
 
-    // Method to check if the guessed word has the correct form
-    private boolean isValidForm(String guess) {
-        for (char c : guess.toCharArray()) {
-            if (!Character.isLetter(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-     // method to check if the guessed word is in the Word Bank
-    private boolean WordInBank (String guess){
-        return wordBank. contains (guess); 
-    }
-
-    //basic guess method, not following mode or difficulty settings
-    public boolean guess(LetterTile[] guess){
-        //guess is not a real word or not the correct length
-        if(!isValidGuess(guess)){
-            return false;
-        }
-        boolean result = true;
-
-        for(int i = 0; i < guess.length; i++){
-            if(guess[i].getLetter() == secretWord.charAt(i)){
-                guess[i].setStatus("correct");
-                found[i] = guess[i].getLetter();
-
-            } else if(secretWord.contains(String.valueOf(guess[i].getLetter()))){
-                guess[i].setStatus("contains");
-                contains.add(guess[i].getLetter());
-
-                result = false;
-            } else {
-                guess[i].setStatus("incorrect");
-                invalid.add(guess[i].getLetter());
-                
-                result = false;
-            }
-        }
-
-        return result;
+    //method to check if guessed word is in dictionary
+    public boolean isInDictionary(String guess){
+        int index = Collections.binarySearch(dictionary, guess);
+        return index >= 0;
     }
 
     // Getter method to retrieve the secret word
