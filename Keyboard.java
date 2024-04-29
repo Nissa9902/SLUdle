@@ -2,9 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Keyboard extends JPanel implements Observer {
+public class Keyboard extends JPanel {
     private static final String ALPHABET = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private KeyboardButton[] keys;
+    private JButton enter;
+    private JButton backspace;
     private BoardPanel grid;
     private SLUdleFrame frame;
     private String mode;
@@ -35,7 +37,7 @@ public class Keyboard extends JPanel implements Observer {
             add(keys[i]);
         }
 
-        JButton backspace = new JButton("<=");
+        this.backspace = new JButton("<=");
         backspace.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 board.backspace();
@@ -65,7 +67,7 @@ public class Keyboard extends JPanel implements Observer {
             add(keys[i]);
         }
 
-        JButton enter = new JButton("ENTER");
+        this.enter = new JButton("ENTER");
         enter.setBackground(new Color(204, 204, 204));
         enter.setForeground(new Color(64, 64, 64));
 
@@ -111,12 +113,6 @@ public class Keyboard extends JPanel implements Observer {
         }
     }
 
-    @Override
-    public void update(LetterTile[] guess, boolean isHard) {
-        // Update key colors based on the guess made
-       
-    }
-
     private Color getColorForStatus(String status) {
         switch (status) {
             case "correct":
@@ -128,5 +124,13 @@ public class Keyboard extends JPanel implements Observer {
             default:
                 return Color.LIGHT_GRAY;
         }
+    }
+
+    public void disableKeyboard(){
+        for(KeyboardButton key: keys){
+            key.setEnabled(false);
+        }
+        enter.setEnabled(false);
+        backspace.setEnabled(false);
     }
 }

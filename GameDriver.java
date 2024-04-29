@@ -25,8 +25,7 @@ public class GameDriver{
                 config.setVisible(false);
                 config.dispose();
 
-                Controller c = new Controller(secretWord, false); //hard mode off temporarily
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, c, mode, isHard);
+                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, mode, isHard);
             }
          };
 
@@ -34,6 +33,24 @@ public class GameDriver{
     }
 
     public static void main(String[] args) {
+        try {
+            // Set cross-platform Java L&F (also called "Metal")
+        UIManager.setLookAndFeel(
+            UIManager.getCrossPlatformLookAndFeelClassName());
+        } 
+        catch (UnsupportedLookAndFeelException e) {
+        // handle exception
+        }
+        catch (ClassNotFoundException e) {
+        // handle exception
+        }
+        catch (InstantiationException e) {
+        // handle exception
+        }
+        catch (IllegalAccessException e) {
+        // handle exception
+        }
+        
         GameDriver newGame = new GameDriver();
     }
 }
