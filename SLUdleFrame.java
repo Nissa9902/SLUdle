@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class SLUdleFrame extends JFrame {
     private BoardPanel boardPanel;
+    private Keyboard keyboard;
     private ArrayList<Character> inWord;
     private ArrayList<Character> invalid;
     private char[] found;
@@ -27,7 +28,7 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(400, 500));
+        panel.setPreferredSize(new Dimension(500, 600));
         panel.setBackground(Color.WHITE);
 
         this.boardPanel = new BoardPanel(wordLength, mode);
@@ -35,8 +36,11 @@ public class SLUdleFrame extends JFrame {
         boardPanel.setBackground(Color.WHITE);
         c.register(boardPanel);
 
-        //TODO: add keyboard 
+        this.keyboard = new Keyboard(boardPanel);
+        keyboard.setPreferredSize(new Dimension(475, 200));
+
         panel.add(boardPanel);
+        panel.add(keyboard);
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();

@@ -15,14 +15,14 @@ public class BoardPanel extends JPanel implements Observer{//implements observer
     public BoardPanel(int wordLength, String mode){
         super();
 
-        this.maxRow = wordLength;
-        this.maxCol = wordLength + 1;
-        this.tiles = new LetterTile[maxCol][maxRow];
+        this.maxRow = wordLength + 1;
+        this.maxCol = wordLength;
+        this.tiles = new LetterTile[maxRow][maxCol];
 
-        this.setLayout(new GridLayout(maxCol, maxRow, 4, 4));
+        this.setLayout(new GridLayout(maxRow, maxCol, 4, 4));
 
-        for (int row = 0; row < maxCol; row++){
-            for(int col = 0; col < maxRow; col++){
+        for(int row = 0; row < maxRow; row++){
+            for (int col = 0; col < maxCol; col++){                
                 LetterTile newTile;
                 if(mode.equals("SLU")){
                     newTile = new SLULetterTile(' ', "empty");
@@ -41,25 +41,35 @@ public class BoardPanel extends JPanel implements Observer{//implements observer
     }
 
     public void addTypedLetter(char letter){
-        if(currentCol != maxCol && currentRow != maxRow){
+        if(currentCol < maxCol && currentRow < maxRow){
             tiles[currentRow][currentCol].setLetter(letter);
             tiles[currentRow][currentCol].setStatus("unchecked");
             currentGuess[currentCol] = tiles[currentRow][currentCol];
             currentCol++;
         }
+        this.revalidate();
+        this.repaint();
     }
 
-    public void setBackspace(){
-        tiles[currentRow][currentCol-1].setStatus("empty");
-        currentCol--;
+    public void backspace(){
+        if(currentCol > 0){
+            tiles[currentRow][currentCol-1].setStatus("empty");
+            currentCol--;
+            this.revalidate();
+            this.repaint();
+        }
     }
 
     public void setTileStatus(int row, int col, String status){
         tiles[row][col].setStatus(status);
+        this.revalidate();
+        this.repaint();
     }
 
     public void setTileLetter(int row, int col, char letter){
         tiles[row][col].setLetter(letter);
+        this.revalidate();
+        this.repaint();
     }
 
     public void resetBoard(){
