@@ -63,6 +63,11 @@ public class LetterTile implements Icon{
         return status;
     }
 
+    public void reset(){
+        setLetter(' ');
+        setStatus("empty");
+    }
+
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         //get graphics context

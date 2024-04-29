@@ -23,23 +23,9 @@ public class SecretWord {
     // Constructor: Choose a random word from the provided word bank file based on the selected mode
     public SecretWord(String filename) {
         this.wordBank = readWordBank(filename);
-        this.secretWord = chooseRandomWord();
-        this.dictionary = new ArrayList<String>();
-
-        try {
-            //dictionary file via https://github.com/dwyl/english-words
-            File dict = new File("dictionary.txt");
-            Scanner in = new Scanner(dict);
-            while(in.hasNextLine()){
-                String line = in.nextLine();
-                dictionary.add(line);
-            }
-            
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        
+        this.secretWord = chooseRandomWord().toUpperCase();
+        //dictionary file via https://github.com/dwyl/english-words
+        this.dictionary = readWordBank("dictionary.txt");
     }
 
     public int length(){
@@ -76,7 +62,9 @@ public class SecretWord {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                words.add(line.trim());
+                if(isAllLetters(line.trim())){
+                    words.add(line.trim().toLowerCase());
+                }
             }
         } catch (IOException e) {
             System.out.println("Error reading word bank file: " + e.getMessage());
@@ -84,14 +72,23 @@ public class SecretWord {
         return words;
     }
 
+    private boolean isAllLetters(String word){
+        for(int i = 0; i < word.length(); i++){
+            char c = word.charAt(i);
+            if(!Character.isAlphabetic(c)){
+                return false;
+            }
+        }
+        return true;
+    }
     //method to check if the guessed word is in the Word Bank
     public boolean isInBank(String guess){
-        return wordBank.contains(guess); 
+        return wordBank.contains(guess.toLowerCase()); 
     }
 
     //method to check if guessed word is in dictionary
     public boolean isInDictionary(String guess){
-        int index = Collections.binarySearch(dictionary, guess);
+        int index = Collections.binarySearch(dictionary, guess.toLowerCase().trim());
         return index >= 0;
     }
 

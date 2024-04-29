@@ -28,7 +28,7 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setPreferredSize(new Dimension(60 * wordLength + 240, 60 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
 
         this.boardPanel = new BoardPanel(wordLength, mode);
@@ -36,7 +36,16 @@ public class SLUdleFrame extends JFrame {
         boardPanel.setBackground(Color.WHITE);
         c.register(boardPanel);
 
-        this.keyboard = new Keyboard(boardPanel);
+        ActionListener enterListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                System.out.println(boardPanel.getCurrentGuessString());
+                if(validateGuess(boardPanel.getCurrentGuess())){
+                    System.out.println("guess is valid");
+                    guess(boardPanel.getCurrentGuess());
+                }
+            }
+        };
+        this.keyboard = new Keyboard(boardPanel, enterListener, mode);
         keyboard.setPreferredSize(new Dimension(475, 200));
 
         panel.add(boardPanel);
@@ -50,23 +59,36 @@ public class SLUdleFrame extends JFrame {
     public boolean guess(LetterTile[] guess){
         boolean result = true;
         String word = secretWord.getSecretWord();
+        String wordForContains = word;
+        String foundInGuess = "";
+
         for(int i = 0; i < guess.length; i++){
             if(guess[i].getLetter() == word.charAt(i)){
                 guess[i].setStatus("correct");
                 found[i] = guess[i].getLetter();
+                foundInGuess += guess[i].getLetter();
 
-            } else if(word.contains(String.valueOf(guess[i].getLetter()))){
-                guess[i].setStatus("contains");
-                inWord.add(guess[i].getLetter());
-
-                result = false;
             } else {
                 guess[i].setStatus("incorrect");
                 invalid.add(guess[i].getLetter());
-                
                 result = false;
             }
         }
+
+        for(int i = 0; i < guess.length; i++){
+            if(word.contains(String.valueOf(guess[i].getLetter())) && !guess[i].getStatus().equals("correct") && 
+            !foundInGuess.contains(String.valueOf(guess[i].getLetter()))){
+                guess[i].setStatus("contains");
+                inWord.add(guess[i].getLetter());
+                result = false;
+            }
+        }
+
+        keyboard.updateKeyColors(guess);
+        
+        boardPanel.nextRow();
+        boardPanel.revalidate();
+        boardPanel.repaint();
 
         return result;
     }
@@ -96,6 +118,7 @@ public class SLUdleFrame extends JFrame {
             }
         }
 
+        guessStr = guessStr.toLowerCase();
         //check for correct length
         boolean validLength = guessStr.length() == secretWord.length();
         if(!validLength){

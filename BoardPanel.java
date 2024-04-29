@@ -60,6 +60,28 @@ public class BoardPanel extends JPanel implements Observer{//implements observer
         }
     }
 
+    public LetterTile[] getCurrentGuess(){
+        return currentGuess;
+    }
+
+    public String getCurrentGuessString(){
+        String guess = "";
+        for(LetterTile tile: currentGuess){
+            guess += tile.getLetter();
+        }
+        return guess;
+    }
+
+    public void nextRow(){
+        if(currentRow < maxRow - 1){
+            currentRow++;
+            currentCol = 0;
+        }
+        for(int i = 0; i < currentGuess.length; i++){
+            currentGuess[i] = null;
+        }
+    }
+
     public void setTileStatus(int row, int col, String status){
         tiles[row][col].setStatus(status);
         this.revalidate();

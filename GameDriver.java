@@ -14,14 +14,19 @@ public class GameDriver{
                 String mode = config.getMode();
 
                 //Normal Word Bank via https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt
-                SecretWord secretWord = new SecretWord("NormalWordBank.txt");//defaulting to Normal mode for Alpha v
+                SecretWord secretWord;
+                if(mode.equals("SLU")){
+                    secretWord = new SecretWord("SLUWordBank.txt");
+                } else {
+                    secretWord = new SecretWord("NormalWordBank.txt");
+                }
 
                 System.out.println(secretWord);
                 config.setVisible(false);
                 config.dispose();
 
                 Controller c = new Controller(secretWord, false); //hard mode off temporarily
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, c, "BASIC", false);
+                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, c, mode, isHard);
             }
          };
 

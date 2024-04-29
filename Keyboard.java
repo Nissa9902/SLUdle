@@ -4,46 +4,73 @@ import javax.swing.*;
 
 public class Keyboard extends JPanel implements Observer {
     private static final String ALPHABET = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    private JButton[] keys;
+    private KeyboardButton[] keys;
     private BoardPanel grid;
+    private SLUdleFrame frame;
+    private String mode;
 
-    public Keyboard(BoardPanel grid) {
-        this.grid = grid;
-        setLayout(new GridLayout(3, 10));
-        keys = new JButton[26];
+    public Keyboard(BoardPanel board, ActionListener enterListener, String mode) {
+        this.grid = board;
+        this.mode = mode;
+
+        setLayout(new GridLayout(3, 10, 2, 2));
+        keys = new KeyboardButton[26];
 
         // buttons 
         int index = 0;
         for (int i = 0; i < 19; i++) {
-            keys[i] = new JButton(String.valueOf((char) (ALPHABET.charAt(i))));
-            keys[i].setBackground(Color.LIGHT_GRAY);
+            if(mode.equals("SLU")){
+                keys[i] = new SLUKeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
+            
+            } else {
+                keys[i] = new KeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
+            }
+
+            keys[i].setStatus("unchecked");
             keys[i].addActionListener(new KeyboardListener());
+            keys[i].setMargin(new Insets(1,1,1,1));
+            
+            Font newButtonFont = new Font(keys[i].getFont().getName(),keys[i].getFont().getStyle(),16);
+            keys[i].setFont(newButtonFont);
             add(keys[i]);
         }
 
         JButton backspace = new JButton("<=");
         backspace.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                grid.backspace();
+                board.backspace();
             }
         });
+        backspace.setBackground(new Color(204, 204, 204));
+        backspace.setForeground(new Color(64, 64, 64));
+
         backspace.setMargin(new Insets(1,1,1,1));
         add(backspace);
         
 
         for (int i = 19; i < 26; i++) {
-            keys[i] = new JButton(String.valueOf((char) (ALPHABET.charAt(i))));
-            keys[i].setBackground(Color.LIGHT_GRAY);
+            if(mode.equals("SLU")){
+                keys[i] = new SLUKeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
+                System.out.println("!");
+            } else {
+                keys[i] = new KeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
+                System.out.println("!!");
+            }
+            
+            keys[i].setStatus("unchecked");
             keys[i].addActionListener(new KeyboardListener());
+            keys[i].setMargin(new Insets(1,1,1,1));
+
+            Font newButtonFont = new Font(keys[i].getFont().getName(),keys[i].getFont().getStyle(),16);
+            keys[i].setFont(newButtonFont);
             add(keys[i]);
         }
 
         JButton enter = new JButton("ENTER");
-        enter.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
+        enter.setBackground(new Color(204, 204, 204));
+        enter.setForeground(new Color(64, 64, 64));
+
+        enter.addActionListener(enterListener);
         enter.setMargin(new Insets(1,1,1,1));
         add(enter);
 
@@ -58,11 +85,25 @@ public class Keyboard extends JPanel implements Observer {
         }
     }
 
-    public void updateKeyColor(char letter, Color color) {
-        int index = ALPHABET.indexOf(Character.toUpperCase(letter));
-        if (index != -1) {
-            keys[index].setBackground(color);
+    public void updateKeyColors(LetterTile[] guess) {
+        for (LetterTile tile : guess) {
+            int index = ALPHABET.indexOf(Character.toUpperCase(tile.getLetter()));
+
+            if (index != -1) {
+                if(tile.getStatus().equals("correct")){
+                    keys[index].setStatus("correct");
+                } else if (tile.getStatus().equals("contains")){
+                    if(!keys[index].getStatus().equals("correct")){
+                        keys[index].setStatus("contains");
+                    }
+                } else if (tile.getStatus().equals("incorrect")){
+                    if(!keys[index].getStatus().equals("correct")){
+                        keys[index].setStatus("incorrect");
+                    }
+                }
+            }    
         }
+        
     }
 
     public void resetKeyColors() {
@@ -74,9 +115,7 @@ public class Keyboard extends JPanel implements Observer {
     @Override
     public void update(LetterTile[] guess, boolean isHard) {
         // Update key colors based on the guess made
-        for (LetterTile tile : guess) {
-            updateKeyColor(tile.getLetter(), getColorForStatus(tile.getStatus()));
-        }
+       
     }
 
     private Color getColorForStatus(String status) {
