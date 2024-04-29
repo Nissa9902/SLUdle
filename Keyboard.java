@@ -54,9 +54,8 @@ public class Keyboard extends JPanel implements Observer {
                 System.out.println("!");
             } else {
                 keys[i] = new KeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
-                System.out.println("!!");
             }
-            
+
             keys[i].setStatus("unchecked");
             keys[i].addActionListener(new KeyboardListener());
             keys[i].setMargin(new Insets(1,1,1,1));

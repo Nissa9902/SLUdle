@@ -129,6 +129,7 @@ public class SLUdleFrame extends JFrame {
         return secretWord.isInDictionary(guessStr) || secretWord.isInBank(guessStr);
     }
 
+    //TODO: not currently functioning
     public boolean validateHardMode(LetterTile[] guess){
         //check if found letters are used
         for(int i = 0; i < found.length; i++){
