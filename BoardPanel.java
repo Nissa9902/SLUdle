@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class BoardPanel extends JPanel implements Observer{//implements observer
+public class BoardPanel extends JPanel {
     private int maxCol;
     private int maxRow;
     private LetterTile[][] tiles;
@@ -110,16 +110,4 @@ public class BoardPanel extends JPanel implements Observer{//implements observer
         add(temp);
     }
 
-    @Override
-    public void update(LetterTile guess[], boolean isHard) { //might move some of this logic to SLUdleFrame
-
-        //called on enter
-        //guess() should update tile statuses and return true or false
-        //if true (win) display congrats, record and display stats for current session, reset board and button panel
-        //if false check if on last row
-            //if on last row (loss) display loss, record and display stats for current session, reset board and button panel
-            //if not, update current row
-
-        
-    }
 }
