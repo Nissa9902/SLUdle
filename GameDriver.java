@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.UIManager;
 
 public class GameDriver{
     private ConfigFrame config;
     
     public GameDriver() {
-        try { 
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
-        } catch(Exception ignored){}
 
         ActionListener startListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -36,6 +34,13 @@ public class GameDriver{
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        }
+        catch (Exception e) {
+            System.out.println("Look and Feel not set");
+        }
+
         new GameDriver();
     }
 }
