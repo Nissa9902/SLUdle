@@ -53,7 +53,6 @@ public class Keyboard extends JPanel {
         for (int i = 19; i < 26; i++) {
             if(mode.equals("SLU")){
                 keys[i] = new SLUKeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
-                System.out.println("!");
             } else {
                 keys[i] = new KeyboardButton(String.valueOf((char) (ALPHABET.charAt(i))));
             }
