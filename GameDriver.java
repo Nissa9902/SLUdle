@@ -5,6 +5,9 @@ public class GameDriver{
     private ConfigFrame config;
     
     public GameDriver() {
+        try { 
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+        } catch(Exception ignored){}
 
         ActionListener startListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -25,8 +28,7 @@ public class GameDriver{
                 config.setVisible(false);
                 config.dispose();
 
-                Controller c = new Controller(secretWord, false); //hard mode off temporarily
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, c, mode, isHard);
+                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, mode, isHard);
             }
          };
 
@@ -34,6 +36,6 @@ public class GameDriver{
     }
 
     public static void main(String[] args) {
-        GameDriver newGame = new GameDriver();
+        new GameDriver();
     }
 }

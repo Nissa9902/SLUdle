@@ -1,24 +1,33 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+
+import javax.swing.BoxLayout; 
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class SLUdleFrame extends JFrame {
     private BoardPanel boardPanel;
     private Keyboard keyboard;
+    private JLabel messageLabel;
     private ArrayList<Character> inWord;
     private ArrayList<Character> invalid;
     private char[] found;
+    private int guessCount;
+    private int maxGuess;
 
     private SecretWord secretWord;
     private String mode;
     private boolean isHard;
     
-    public SLUdleFrame(String title, SecretWord secretWord, Controller c, String mode, boolean isHard){
+    public SLUdleFrame(String title, SecretWord secretWord, String mode, boolean isHard){
         super(title);
         int wordLength = secretWord.length();
+
+        this.guessCount = 1;
+        this.maxGuess = wordLength + 1;
+
         this.secretWord = secretWord;
         this.mode = mode;
         this.isHard = isHard;
@@ -28,13 +37,12 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(60 * wordLength + 240, 60 * (wordLength + 1) + 250));
+        //panel.setPreferredSize(new Dimension(60 * wordLength + 240, 60 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
 
         this.boardPanel = new BoardPanel(wordLength, mode);
-        boardPanel.setPreferredSize(new Dimension(60 * wordLength, 60 * (wordLength + 1)));
+       // boardPanel.setPreferredSize(new Dimension(60 * wordLength, 60 * (wordLength + 1)));
         boardPanel.setBackground(Color.WHITE);
-        c.register(boardPanel);
 
         ActionListener enterListener = new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -46,10 +54,14 @@ public class SLUdleFrame extends JFrame {
             }
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
-        keyboard.setPreferredSize(new Dimension(475, 200));
+        //keyboard.setPreferredSize(new Dimension(475, 200));
+
+        this.messageLabel = new JLabel("");
+        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
 
         panel.add(boardPanel);
         panel.add(keyboard);
+        panel.add(messageLabel);
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -59,7 +71,6 @@ public class SLUdleFrame extends JFrame {
     public boolean guess(LetterTile[] guess){
         boolean result = true;
         String word = secretWord.getSecretWord();
-        String wordForContains = word;
         String foundInGuess = "";
 
         for(int i = 0; i < guess.length; i++){
@@ -90,30 +101,40 @@ public class SLUdleFrame extends JFrame {
         boardPanel.revalidate();
         boardPanel.repaint();
 
+        if(result){
+            messageLabel.setText("You Won :)");
+            keyboard.disableKeyboard();
+        } else if (guessCount == maxGuess){
+            messageLabel.setText("Answer: " + secretWord);
+            keyboard.disableKeyboard();
+        }
+        guessCount++;
         return result;
     }
 
     // Method to validate the guessed word
     public boolean validateGuess(LetterTile[] guess) {
 
-        //check guess follows hard rules if applicable
+        /*check guess follows hard rules if applicable
         if(mode.equals("HARD")){
             boolean hardGuessValid = validateHardMode(guess);
             if(!hardGuessValid){
                 return false;
             }
-        }
+        }*/
 
         //check for empty tiles or invalid characters
         String guessStr = "";
         for(LetterTile tile: guess){
             if(tile.getStatus().equals("empty")){
+                this.messageLabel.setText("Too short");
                 return false;
             }
 
             if(Character.isLetter(tile.getLetter())){
                 guessStr += tile.getLetter();
             } else {
+                this.messageLabel.setText("Invalid letter(s)");
                 return false;
             }
         }
@@ -122,11 +143,18 @@ public class SLUdleFrame extends JFrame {
         //check for correct length
         boolean validLength = guessStr.length() == secretWord.length();
         if(!validLength){
+            this.messageLabel.setText("Too short");
             return false;
         }
 
         //guessed word needs to be either in our word bank or dictionary
-        return secretWord.isInDictionary(guessStr) || secretWord.isInBank(guessStr);
+        if(secretWord.isInDictionary(guessStr) || secretWord.isInBank(guessStr)){
+            this.messageLabel.setText("");
+            return true;
+        } else {
+            this.messageLabel.setText("Not a word");
+            return false;
+        }
     }
 
     //TODO: not currently functioning
@@ -162,7 +190,7 @@ public class SLUdleFrame extends JFrame {
                 return false;
             }
         }
-
+        this.messageLabel.setText("Winner!");
         return true;
     }
 
