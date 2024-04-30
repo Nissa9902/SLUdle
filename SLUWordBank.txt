@@ -15,7 +15,7 @@ Jesuits
 Olive
 Laclede
 Clemens
-Pius
+Oius
 Library
 Fusz
 Gries
@@ -35,7 +35,3 @@ Quad
 DICE
 Dolphins
 Einsteins
-Ducks
-Ritter
-Commons
-Hammocks
