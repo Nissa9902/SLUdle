@@ -126,17 +126,19 @@ public class SLUdleFrame extends JFrame {
         //check for empty tiles or invalid characters
         String guessStr = "";
         for(LetterTile tile: guess){
-            if(tile.getStatus().equals("empty")){
-                this.messageLabel.setText("Too short");
-                return false;
-            }
+            if(tile != null){
+                if(tile.getStatus().equals("empty")){
+                    this.messageLabel.setText("Too short");
+                    return false;
+                }
 
-            if(Character.isLetter(tile.getLetter())){
-                guessStr += tile.getLetter();
-            } else {
-                this.messageLabel.setText("Invalid letter(s)");
-                return false;
-            }
+                if(Character.isLetter(tile.getLetter())){
+                    guessStr += tile.getLetter();
+                } else {
+                    this.messageLabel.setText("Invalid letter(s)");
+                    return false;
+                }
+            }   
         }
 
         guessStr = guessStr.toLowerCase();

@@ -67,7 +67,10 @@ public class BoardPanel extends JPanel {
     public String getCurrentGuessString(){
         String guess = "";
         for(LetterTile tile: currentGuess){
-            guess += tile.getLetter();
+            if(tile != null){
+                guess += tile.getLetter();
+            }
+            
         }
         return guess;
     }
