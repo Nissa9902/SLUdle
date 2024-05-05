@@ -1,10 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-
-import javax.swing.BoxLayout; 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class SLUdleFrame extends JFrame {
@@ -29,7 +29,6 @@ public class SLUdleFrame extends JFrame {
         this.maxGuess = wordLength + 1;
 
         this.secretWord = secretWord;
-        this.mode = mode;
         this.isHard = isHard;
 
         this.inWord = new ArrayList<Character>();
@@ -37,11 +36,12 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        //panel.setPreferredSize(new Dimension(60 * wordLength + 240, 60 * (wordLength + 1) + 250));
+       
+        panel.setPreferredSize(new Dimension(600, 650)); 
         panel.setBackground(Color.WHITE);
 
         this.boardPanel = new BoardPanel(wordLength, mode);
-       // boardPanel.setPreferredSize(new Dimension(60 * wordLength, 60 * (wordLength + 1)));
+        boardPanel.setPreferredSize(new Dimension(300, 350)); 
         boardPanel.setBackground(Color.WHITE);
 
         ActionListener enterListener = new ActionListener() {
@@ -54,7 +54,7 @@ public class SLUdleFrame extends JFrame {
             }
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
-        //keyboard.setPreferredSize(new Dimension(475, 200));
+        keyboard.setPreferredSize(new Dimension(550, 150)); 
 
         this.messageLabel = new JLabel("");
         messageLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -64,8 +64,8 @@ public class SLUdleFrame extends JFrame {
         panel.add(messageLabel);
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pack();
-		setVisible(true);
+        pack();
+        setVisible(true);
     }
 
     public boolean guess(LetterTile[] guess){
@@ -74,23 +74,21 @@ public class SLUdleFrame extends JFrame {
         String foundInGuess = "";
 
         for(int i = 0; i < guess.length; i++){
-            if(guess[i].getLetter() == word.charAt(i)){
+            Character letter = guess[i].getLetter();
+
+            if(letter == word.charAt(i)){
                 guess[i].setStatus("correct");
-                found[i] = guess[i].getLetter();
-                foundInGuess += guess[i].getLetter();
+                found[i] = letter;
+                foundInGuess += letter;
 
-            } else {
-                guess[i].setStatus("incorrect");
-                invalid.add(guess[i].getLetter());
-                result = false;
-            }
-        }
-
-        for(int i = 0; i < guess.length; i++){
-            if(word.contains(String.valueOf(guess[i].getLetter())) && !guess[i].getStatus().equals("correct") && 
-            !foundInGuess.contains(String.valueOf(guess[i].getLetter()))){
+            } else if(word.contains(String.valueOf(letter)) && !guess[i].getStatus().equals("correct")){
                 guess[i].setStatus("contains");
                 inWord.add(guess[i].getLetter());
+                result = false;
+                
+            } else if(!inWord.contains(letter) && !Arrays.asList(found).contains(letter)){
+                guess[i].setStatus("incorrect");
+                invalid.add(guess[i].getLetter());
                 result = false;
             }
         }
@@ -115,13 +113,13 @@ public class SLUdleFrame extends JFrame {
     // Method to validate the guessed word
     public boolean validateGuess(LetterTile[] guess) {
 
-        /*check guess follows hard rules if applicable
-        if(mode.equals("HARD")){
+        //check guess follows hard rules if applicable
+        if(isHard){
             boolean hardGuessValid = validateHardMode(guess);
             if(!hardGuessValid){
                 return false;
             }
-        }*/
+        }
 
         //check for empty tiles or invalid characters
         String guessStr = "";
@@ -165,6 +163,7 @@ public class SLUdleFrame extends JFrame {
         for(int i = 0; i < found.length; i++){
             if(found[i] != 0){
                 if(guess[i].getLetter() != found[i]){
+                    this.messageLabel.setText("Didn't use found letters");
                     return false;
                 }
             }
@@ -182,19 +181,20 @@ public class SLUdleFrame extends JFrame {
             }
 
             if(!found){
+                this.messageLabel.setText("Not all contained letters used");
                 return false;
             }
         }
 
         //check if any invalid letters are used
+        System.out.println(invalid);
         for(LetterTile tile: guess){
             if(invalid.contains(tile.getLetter())){
+                this.messageLabel.setText("Used invalid letter");
                 return false;
             }
         }
         this.messageLabel.setText("Winner!");
         return true;
     }
-
-
 }
