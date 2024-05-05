@@ -1,10 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-
-import javax.swing.BoxLayout; 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class SLUdleFrame extends JFrame {
@@ -29,7 +29,7 @@ public class SLUdleFrame extends JFrame {
         this.maxGuess = wordLength + 1;
 
         this.secretWord = secretWord;
-        this.mode = mode;
+        System.out.println(mode);
         this.isHard = isHard;
 
         this.inWord = new ArrayList<Character>();
@@ -74,26 +74,25 @@ public class SLUdleFrame extends JFrame {
         String foundInGuess = "";
 
         for(int i = 0; i < guess.length; i++){
-            if(guess[i].getLetter() == word.charAt(i)){
-                guess[i].setStatus("correct");
-                found[i] = guess[i].getLetter();
-                foundInGuess += guess[i].getLetter();
+            Character letter = guess[i].getLetter();
 
-            } else {
+            if(letter == word.charAt(i)){
+                guess[i].setStatus("correct");
+                found[i] = letter;
+                foundInGuess += letter;
+
+            } else if(word.contains(String.valueOf(letter)) && !guess[i].getStatus().equals("correct")){
+                guess[i].setStatus("contains");
+                inWord.add(guess[i].getLetter());
+                result = false;
+                
+            } else if(!inWord.contains(letter) && !Arrays.asList(found).contains(letter)){
                 guess[i].setStatus("incorrect");
                 invalid.add(guess[i].getLetter());
                 result = false;
             }
         }
 
-        for(int i = 0; i < guess.length; i++){
-            if(word.contains(String.valueOf(guess[i].getLetter())) && !guess[i].getStatus().equals("correct") && 
-            !foundInGuess.contains(String.valueOf(guess[i].getLetter()))){
-                guess[i].setStatus("contains");
-                inWord.add(guess[i].getLetter());
-                result = false;
-            }
-        }
 
         keyboard.updateKeyColors(guess);
         
@@ -115,13 +114,13 @@ public class SLUdleFrame extends JFrame {
     // Method to validate the guessed word
     public boolean validateGuess(LetterTile[] guess) {
 
-        /*check guess follows hard rules if applicable
-        if(mode.equals("HARD")){
+        //check guess follows hard rules if applicable
+        if(isHard){
             boolean hardGuessValid = validateHardMode(guess);
             if(!hardGuessValid){
                 return false;
             }
-        }*/
+        }
 
         //check for empty tiles or invalid characters
         String guessStr = "";
@@ -165,6 +164,7 @@ public class SLUdleFrame extends JFrame {
         for(int i = 0; i < found.length; i++){
             if(found[i] != 0){
                 if(guess[i].getLetter() != found[i]){
+                    this.messageLabel.setText("Didn't use found letters");
                     return false;
                 }
             }
@@ -182,13 +182,16 @@ public class SLUdleFrame extends JFrame {
             }
 
             if(!found){
+                this.messageLabel.setText("Not all contained letters used");
                 return false;
             }
         }
 
         //check if any invalid letters are used
+        System.out.println(invalid);
         for(LetterTile tile: guess){
             if(invalid.contains(tile.getLetter())){
+                this.messageLabel.setText("Used invalid letter");
                 return false;
             }
         }
