@@ -73,22 +73,55 @@ public class SLUdleFrame extends JFrame {
         String foundInGuess = "";
 
         for(int i = 0; i < guess.length; i++){
-            Character letter = guess[i].getLetter();
-
-            if(letter == word.charAt(i)){
+            if(guess[i].getLetter() == word.charAt(i)){
                 guess[i].setStatus("correct");
-                found[i] = letter;
-                foundInGuess += letter;
+                foundInGuess += guess[i].getLetter();
 
-            } else if(word.contains(String.valueOf(letter)) && !guess[i].getStatus().equals("correct")){
-                guess[i].setStatus("contains");
-                inWord.add(guess[i].getLetter());
-                result = false;
-                
-            } else if(!inWord.contains(letter) && !Arrays.asList(found).contains(letter)){
+            } else {
                 guess[i].setStatus("incorrect");
-                invalid.add(guess[i].getLetter());
                 result = false;
+            }
+        }
+
+        String containedInGuess = "";
+        for(int i = 0; i < guess.length; i++){
+            if(word.contains(String.valueOf(guess[i].getLetter())) && 
+            !guess[i].getStatus().equals("correct") && 
+            !foundInGuess.contains(String.valueOf(guess[i].getLetter()))){
+                
+                char letter = guess[i].getLetter();
+
+                int count = 0;
+                for (int j = 0; j < word.length(); j++) {
+                    if (word.charAt(j) == letter) {
+                        count++;
+                    }
+                }
+
+                if(containedInGuess.contains(String.valueOf(letter)) && count > 1){
+                    guess[i].setStatus("contains");
+                    containedInGuess += letter;
+                } else if(!containedInGuess.contains(String.valueOf(letter))){
+                    guess[i].setStatus("contains");
+                    containedInGuess += letter;
+                }
+                
+            }
+        }
+
+        if(isHard){
+            for(int j = 0; j < guess.length; j++){
+                if(guess[j].getStatus().equals("correct")){
+                    found[j] = guess[j].getLetter();
+
+                } else if (guess[j].getStatus().equals("contains")){
+                    inWord.add(guess[j].getLetter());
+
+                } else if (guess[j].getStatus().equals("incorrect")){
+                    if(!inWord.contains(guess[j].getLetter())){
+                        invalid.add(guess[j].getLetter());
+                    }
+                }
             }
         }
 
