@@ -189,7 +189,6 @@ public class SLUdleFrame extends JFrame {
         }
     }
 
-    //TODO: not currently functioning
     public boolean validateHardMode(LetterTile[] guess){
         //check if found letters are used
         for(int i = 0; i < found.length; i++){
