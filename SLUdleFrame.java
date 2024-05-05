@@ -39,8 +39,10 @@ public class SLUdleFrame extends JFrame {
        
         panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
-
-        this.boardPanel = new BoardPanel(wordLength, mode);
+        
+        Calculator scoreCalculator = new Calculator();
+        this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
+        
         boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
         boardPanel.setBackground(Color.WHITE);
 

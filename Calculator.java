@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class ScoreCalculator {
+public class Calculator {
     private int currentStreak;
     private int maxStreak;
     private int totalGamesPlayed;
     private Map<Integer, Integer> guessCountFrequency;
 
-    public ScoreCalculator() {
+    public Calculator() {
         currentStreak = 0;
         maxStreak = 0;
         totalGamesPlayed = 0;

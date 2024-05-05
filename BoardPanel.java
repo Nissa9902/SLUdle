@@ -11,8 +11,13 @@ public class BoardPanel extends JPanel {
     private int currentCol;
     private LetterTile[] currentGuess;
     private String mode;
+    private JLabel currentStreakLabel;
+    private JLabel maxStreakLabel;
+    private JLabel guessCountLabel;
+    private Calculator Calculator;
+    private int currentGuessCount;
 
-    public BoardPanel(int wordLength, String mode){
+    public BoardPanel(int wordLength, String mode, Calculator Calculator){
         super();
 
         this.maxRow = wordLength + 1;
@@ -20,6 +25,9 @@ public class BoardPanel extends JPanel {
         this.tiles = new LetterTile[maxRow][maxCol];
 
         this.setLayout(new GridLayout(maxRow, maxCol, 4, 4));
+        
+        this.Calculator = Calculator;
+        this.currentGuessCount = 0;
 
         for(int row = 0; row < maxRow; row++){
             for (int col = 0; col < maxCol; col++){                
@@ -37,6 +45,18 @@ public class BoardPanel extends JPanel {
         this.currentCol = 0;
         this.currentGuess = new LetterTile[maxCol];
         this.mode = mode;
+        
+        // labels for displaying streaks/guess count
+        currentStreakLabel = new JLabel("Current Streak: 0");
+        maxStreakLabel = new JLabel("Max Streak: 0");
+        guessCountLabel = new JLabel("Guesses: 0");
+
+        // adds labels to the panel
+        JPanel statsPanel = new JPanel(new GridLayout(1, 3));
+        statsPanel.add(currentStreakLabel);
+        statsPanel.add(maxStreakLabel);
+        statsPanel.add(guessCountLabel);
+        add(statsPanel, BorderLayout.SOUTH);
 
     }
 
@@ -83,6 +103,9 @@ public class BoardPanel extends JPanel {
         for(int i = 0; i < currentGuess.length; i++){
             currentGuess[i] = null;
         }
+        // Update guess count
+        currentGuessCount++;
+        updateStats();
     }
 
     public void setTileStatus(int row, int col, String status){
@@ -104,6 +127,8 @@ public class BoardPanel extends JPanel {
                 this.setTileStatus(row, col, "empty");
             }
         }
+        currentGuessCount = 0;
+        updateStats();
     }
 
     public void addTile(LetterTile tile){
@@ -112,5 +137,11 @@ public class BoardPanel extends JPanel {
         temp.setBorder(line);
         add(temp);
     }
+    
+    //updates score
+    public void updateStats() {
+        currentStreakLabel.setText("Current Streak: " + Calculator.getCurrentStreak());
+        maxStreakLabel.setText("Max Streak: " + Calculator.getMaxStreak());
+        guessCountLabel.setText("Guesses: " + currentGuessCount);
 
 }
