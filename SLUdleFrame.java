@@ -55,8 +55,6 @@ public class SLUdleFrame extends JFrame {
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
         
-        keyboard.setPreferredSize(new Dimension(550, 150)); 
-
         this.messageLabel = new JLabel("");
         messageLabel.setAlignmentX(CENTER_ALIGNMENT);
 
