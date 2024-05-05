@@ -1,12 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
-<<<<<<< HEAD
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-=======
-import java.awt.GridBagLayout;
-import java.awt.event.*;
->>>>>>> fc2c2fc88cc45b193ce456ee33541a8de6681d5e
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,10 +29,6 @@ public class SLUdleFrame extends JFrame {
         this.maxGuess = wordLength + 1;
 
         this.secretWord = secretWord;
-<<<<<<< HEAD
-=======
-        System.out.println(mode);
->>>>>>> fc2c2fc88cc45b193ce456ee33541a8de6681d5e
         this.isHard = isHard;
 
         this.inWord = new ArrayList<Character>();
@@ -46,11 +37,11 @@ public class SLUdleFrame extends JFrame {
 
         JPanel panel = new JPanel();
        
-        panel.setPreferredSize(new Dimension(600, 650)); 
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
 
         this.boardPanel = new BoardPanel(wordLength, mode);
-        boardPanel.setPreferredSize(new Dimension(300, 350)); 
+        boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
         boardPanel.setBackground(Color.WHITE);
 
         ActionListener enterListener = new ActionListener() {
@@ -84,21 +75,12 @@ public class SLUdleFrame extends JFrame {
 
         for(int i = 0; i < guess.length; i++){
             Character letter = guess[i].getLetter();
-<<<<<<< HEAD
 
             if(letter == word.charAt(i)){
                 guess[i].setStatus("correct");
                 found[i] = letter;
                 foundInGuess += letter;
 
-=======
-
-            if(letter == word.charAt(i)){
-                guess[i].setStatus("correct");
-                found[i] = letter;
-                foundInGuess += letter;
-
->>>>>>> fc2c2fc88cc45b193ce456ee33541a8de6681d5e
             } else if(word.contains(String.valueOf(letter)) && !guess[i].getStatus().equals("correct")){
                 guess[i].setStatus("contains");
                 inWord.add(guess[i].getLetter());
@@ -110,10 +92,6 @@ public class SLUdleFrame extends JFrame {
                 result = false;
             }
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> fc2c2fc88cc45b193ce456ee33541a8de6681d5e
 
         keyboard.updateKeyColors(guess);
         

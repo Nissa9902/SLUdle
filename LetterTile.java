@@ -15,14 +15,14 @@ public class LetterTile implements Icon{
     public LetterTile(char letter){
         this.letter = letter;
         setStatus("empty");
-        this.width = 60;
+        this.width = 100;
         this.thickness = 0;
     }
 
     public LetterTile(char letter, String status){
         this.letter = letter;
         setStatus(status);
-        this.width = 60;
+        this.width = 100;
         this.thickness = 0;
     }
 
@@ -86,7 +86,7 @@ public class LetterTile implements Icon{
 
         //Add text
 		g2.setPaint(textColor);
-        Font f = new Font("Clear Sans", Font.BOLD, 40);
+        Font f = new Font("Clear Sans", Font.BOLD, 60);
         FontMetrics fm   = g.getFontMetrics(f);
 		String l = String.valueOf(letter);
         Rectangle2D rect = fm.getStringBounds(l, g2);
