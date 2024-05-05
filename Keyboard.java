@@ -15,7 +15,7 @@ public class Keyboard extends JPanel{
         this.grid = board;
         this.mode = mode;
 
-        setLayout(new GridLayout(3, 10, 2, 2));
+        setLayout(new GridLayout(4, 10, 2, 2));
         keys = new KeyboardButton[26];
 
         // buttons 

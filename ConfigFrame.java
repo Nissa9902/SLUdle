@@ -15,7 +15,7 @@ public class ConfigFrame extends JFrame{
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(400, 500));
         panel.setBackground(Color.WHITE);
-        panel.setLayout(new GridLayout(3, 1, 4, 4));
+        panel.setLayout(new GridLayout(3, 10, 10, 10));
 
         this.modeButton = new JToggleButton("BASIC Mode");
         ItemListener modeListener = new ItemListener() {
