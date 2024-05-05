@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Keyboard extends JPanel {
+public class Keyboard extends JPanel{
     private static final String ALPHABET = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private KeyboardButton[] keys;
     private JButton enter;
@@ -41,6 +41,7 @@ public class Keyboard extends JPanel {
         backspace.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 board.backspace();
+                
             }
         });
         backspace.setBackground(new Color(204, 204, 204));
@@ -72,8 +73,32 @@ public class Keyboard extends JPanel {
 
         enter.addActionListener(enterListener);
         enter.setMargin(new Insets(1,1,1,1));
+    
         add(enter);
 
+        this.setFocusable(true);
+
+        this.addKeyListener(new KeyAdapter() {
+            // Key Pressed method
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if(Character.isAlphabetic(c)){
+                    c = Character.toUpperCase(c);
+                    grid.addTypedLetter(c);
+                } else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                    grid.backspace();
+                } else if(e.getKeyChar() == KeyEvent.VK_ENTER){
+                    for(ActionListener a: enter.getActionListeners()) {
+                        a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null) {
+                              //Nothing need go here, the actionPerformed method (with the
+                              //above arguments) will trigger the respective listener
+                        });
+                    }
+                }
+            }
+        });
+
+        this.requestFocusInWindow();
     }
 
     private class KeyboardListener implements ActionListener {
@@ -132,4 +157,5 @@ public class Keyboard extends JPanel {
         enter.setEnabled(false);
         backspace.setEnabled(false);
     }
+
 }
