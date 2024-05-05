@@ -36,11 +36,11 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-       
+        Calculator scoreCalculator = new Calculator();
+
         panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
         
-        Calculator scoreCalculator = new Calculator();
         this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
         
         boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
