@@ -51,7 +51,6 @@ public class SLUdleFrame extends JFrame {
         c.insets = new Insets(10, 10, 10, 10);
 
         this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
-        //boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
         boardPanel.setBackground(Color.WHITE);
 
         c.anchor = GridBagConstraints.CENTER;
@@ -189,7 +188,6 @@ public class SLUdleFrame extends JFrame {
 
     // Method to validate the guessed word
     public boolean validateGuess(LetterTile[] guess) {
-
         //check guess follows hard rules if applicable
         if(isHard){
             boolean hardGuessValid = validateHardMode(guess);

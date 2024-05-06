@@ -47,13 +47,9 @@ public class Game{
     }
 
     public void close(){
-        //this.gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
-        gameFrame.setVisible(false); //you can't see me!
+        gameFrame.setVisible(false); 
         gameFrame.dispose();
     }
 
-    /*public static void main(String[] args) {      
-        new GameDriver(); 
 
-    }*/
 }
