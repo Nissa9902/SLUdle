@@ -13,7 +13,7 @@ public class BoardPanel extends JPanel {
     private LetterTile[] currentGuess;
     private String mode;
 
-    public BoardPanel(int wordLength, String mode){
+    public BoardPanel(int wordLength, String mode, Calculator scoreCalculator){
         super();
 
         this.maxRow = wordLength + 1;
