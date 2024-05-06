@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -35,6 +37,7 @@ public class SLUdleFrame extends JFrame {
         this.inWord = new ArrayList<Character>();
         this.invalid = new ArrayList<Character>();
         this.found = new char[secretWord.length()];
+<<<<<<< HEAD
         JPanel panel = new JPanel();        
         
         panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
@@ -42,7 +45,30 @@ public class SLUdleFrame extends JFrame {
 
         this.boardPanel = new BoardPanel(wordLength, mode);
         boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
+=======
+
+        JPanel panel = new JPanel();
+        Calculator scoreCalculator = new Calculator();
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
+        panel.setBackground(Color.WHITE);
+        
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10, 10, 10, 10);
+
+        this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
+        //boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
+>>>>>>> f985459f86b23194e3eeabda3052d5233460893b
         boardPanel.setBackground(Color.WHITE);
+
+        c.anchor = GridBagConstraints.CENTER;
+
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = wordLength;
+        c.gridheight = wordLength + 1;
+        panel.add(boardPanel, c);
 
         ActionListener enterListener = new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -54,16 +80,32 @@ public class SLUdleFrame extends JFrame {
             }
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
+
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = wordLength;
+        c.gridheight = 2;
+        panel.add(keyboard, c);
         
-        this.messageLabel = new JLabel("");
+        this.messageLabel = new JLabel(" ");
         messageLabel.setAlignmentX(CENTER_ALIGNMENT);
        
         this.calculator  = new Calculator();
 
+<<<<<<< HEAD
         panel.add(calculator);
         panel.add(boardPanel);
         panel.add(keyboard);
         panel.add(messageLabel);
+=======
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridheight = 1;
+        panel.add(messageLabel, c);
+
+        //panel.add(boardPanel);
+        //panel.add(keyboard);
+        //panel.add(messageLabel);
+>>>>>>> f985459f86b23194e3eeabda3052d5233460893b
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
