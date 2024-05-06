@@ -18,4 +18,8 @@ public class Calculator extends JPanel {
         repaint();
     }
 
+    public void reset() {
+        totalGuesses = 0;
+        guessesLabel.setText("Total Guesses: 0");
+    }
 }

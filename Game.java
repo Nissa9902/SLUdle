@@ -18,6 +18,7 @@ public class Game{
         }
 
         this.resetListener = resetListener;
+        this.scoreCalculator = scoreCalculator;
 
         ActionListener startListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
