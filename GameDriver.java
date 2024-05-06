@@ -1,47 +1,25 @@
-import javax.swing.*;
-import java.awt.event.*;
-import javax.swing.UIManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GameDriver{
-    private ConfigFrame config;
-    
-    public GameDriver() {
+public class GameDriver {
+    private Game currentGame;
+    private ActionListener resetListener;
+    private Calculator scoreCalculator;
 
-        ActionListener startListener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Start Button Pressed");
-
-                boolean isHard = config.getDifficulty().equals("HARD");
-                String mode = config.getMode();
-
-                //Normal Word Bank via https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt
-                SecretWord secretWord;
-                if(mode.equals("SLU")){
-                    secretWord = new SecretWord("SLUWordBank.txt");
-                } else {
-                    secretWord = new SecretWord("NormalWordBank.txt");
-                }
-
-                System.out.println(secretWord);
-                config.setVisible(false);
-                config.dispose();
-
-                SLUdleFrame frame = new SLUdleFrame ("SLUdle", secretWord, mode, isHard);
+    public GameDriver(){
+        this.resetListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                System.out.println("reseting game");
+                currentGame.close();
+                currentGame = new Game(this, scoreCalculator);
             }
-         };
-
-        this.config = new ConfigFrame("SLUdle", startListener);
-    }
-   
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        }
-        catch (Exception e) {
-            System.out.println("Look and Feel not set");
-        }
+        };
         
-        new GameDriver(); 
+        scoreCalculator = new Calculator();
+        currentGame = new Game(resetListener, scoreCalculator);
+    }
 
+    public static void main(String[] args){
+        GameDriver g = new GameDriver();
     }
 }

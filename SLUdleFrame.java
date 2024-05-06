@@ -23,8 +23,12 @@ public class SLUdleFrame extends JFrame {
     private String mode;
     private boolean isHard;
     private Calculator calculator;
+    private JButton resetButton;
     
-    public SLUdleFrame(String title, SecretWord secretWord, String mode, boolean isHard){
+    public SLUdleFrame(String title, SecretWord secretWord, 
+    String mode, boolean isHard, ActionListener resetListener,
+    Calculator scoreCalculator){
+
         super(title);
         int wordLength = secretWord.length();
 
@@ -39,8 +43,7 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        Calculator scoreCalculator = new Calculator();
-        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 260));
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 300));
         panel.setBackground(Color.WHITE);
         
         panel.setLayout(new GridBagLayout());
@@ -91,11 +94,14 @@ public class SLUdleFrame extends JFrame {
         c.gridheight = 2;
         panel.add(calculator, c);
         
+        this.resetButton =  new JButton("Reset");
+        resetButton.addActionListener(resetListener);
         
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        panel.add(resetButton, c);
 
-        //panel.add(boardPanel);
-        //panel.add(keyboard);
-        //panel.add(messageLabel);
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
