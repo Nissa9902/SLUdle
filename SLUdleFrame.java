@@ -40,7 +40,7 @@ public class SLUdleFrame extends JFrame {
 
         JPanel panel = new JPanel();
         Calculator scoreCalculator = new Calculator();
-        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 260));
         panel.setBackground(Color.WHITE);
         
         panel.setLayout(new GridBagLayout());
@@ -220,7 +220,7 @@ public class SLUdleFrame extends JFrame {
 
         //guessed word needs to be either in our word bank or dictionary
         if(secretWord.isInDictionary(guessStr) || secretWord.isInBank(guessStr)){
-            this.messageLabel.setText("");
+            this.messageLabel.setText(" ");
             return true;
         } else {
             this.messageLabel.setText("Not a word");
