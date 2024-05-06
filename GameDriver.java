@@ -32,7 +32,7 @@ public class GameDriver{
 
         this.config = new ConfigFrame("SLUdle", startListener);
     }
-
+   
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -40,7 +40,8 @@ public class GameDriver{
         catch (Exception e) {
             System.out.println("Look and Feel not set");
         }
+        
+        new GameDriver(); 
 
-        new GameDriver();
     }
 }

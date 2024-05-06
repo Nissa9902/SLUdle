@@ -20,6 +20,7 @@ public class SLUdleFrame extends JFrame {
     private SecretWord secretWord;
     private String mode;
     private boolean isHard;
+    private Calculator calculator;
     
     public SLUdleFrame(String title, SecretWord secretWord, String mode, boolean isHard){
         super(title);
@@ -34,15 +35,12 @@ public class SLUdleFrame extends JFrame {
         this.inWord = new ArrayList<Character>();
         this.invalid = new ArrayList<Character>();
         this.found = new char[secretWord.length()];
-
-        JPanel panel = new JPanel();
-        Calculator scoreCalculator = new Calculator();
-
+        JPanel panel = new JPanel();        
+        
         panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
         panel.setBackground(Color.WHITE);
-        
-        this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
-        
+
+        this.boardPanel = new BoardPanel(wordLength, mode);
         boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
         boardPanel.setBackground(Color.WHITE);
 
@@ -59,7 +57,10 @@ public class SLUdleFrame extends JFrame {
         
         this.messageLabel = new JLabel("");
         messageLabel.setAlignmentX(CENTER_ALIGNMENT);
+       
+        this.calculator  = new Calculator();
 
+        panel.add(calculator);
         panel.add(boardPanel);
         panel.add(keyboard);
         panel.add(messageLabel);
@@ -132,13 +133,17 @@ public class SLUdleFrame extends JFrame {
         boardPanel.nextRow();
         boardPanel.revalidate();
         boardPanel.repaint();
-
+        calculator.updateStats(1);
+        
         if(result){
             messageLabel.setText("You Won :)");
             keyboard.disableKeyboard();
+            //calculator.updateStats(guessCount);
         } else if (guessCount == maxGuess){
             messageLabel.setText("Answer: " + secretWord);
             keyboard.disableKeyboard();
+            //calculator.updateStats(guessCount);
+        
         }
         guessCount++;
         return result;

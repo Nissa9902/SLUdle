@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -98,15 +97,6 @@ public class BoardPanel extends JPanel {
         this.repaint();
     }
 
-    public void resetBoard(){
-        for (int row = 0; row < maxCol; row++){
-            for(int col = 0; col < maxRow; col++){
-                this.setTileLetter(row, col, ' ');
-                this.setTileStatus(row, col, "empty");
-            }
-        }
-    }
-
     public void addTile(LetterTile tile){
         JLabel temp = new JLabel(tile);
         Border line = BorderFactory.createLineBorder(new Color(189, 189, 189));
@@ -115,4 +105,3 @@ public class BoardPanel extends JPanel {
     }
 
 }
-
