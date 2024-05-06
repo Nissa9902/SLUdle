@@ -22,6 +22,7 @@ public class SLUdleFrame extends JFrame {
     private SecretWord secretWord;
     private String mode;
     private boolean isHard;
+    private Calculator calculator;
     
     public SLUdleFrame(String title, SecretWord secretWord, String mode, boolean isHard){
         super(title);
@@ -59,6 +60,14 @@ public class SLUdleFrame extends JFrame {
         c.gridheight = wordLength + 1;
         panel.add(boardPanel, c);
 
+        this.messageLabel = new JLabel(" ");
+        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridheight = 1;
+        panel.add(messageLabel, c);
+
         ActionListener enterListener = new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 System.out.println(boardPanel.getCurrentGuessString());
@@ -70,18 +79,19 @@ public class SLUdleFrame extends JFrame {
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
 
+        c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
         c.gridwidth = wordLength;
         c.gridheight = 2;
         panel.add(keyboard, c);
-        
-        this.messageLabel = new JLabel(" ");
-        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
 
+        this.calculator = scoreCalculator;
         c.gridy = GridBagConstraints.RELATIVE;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridheight = 1;
-        panel.add(messageLabel, c);
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        panel.add(calculator, c);
+        
+        
 
         //panel.add(boardPanel);
         //panel.add(keyboard);
@@ -155,13 +165,17 @@ public class SLUdleFrame extends JFrame {
         boardPanel.nextRow();
         boardPanel.revalidate();
         boardPanel.repaint();
-
+        calculator.updateStats(1);
+        
         if(result){
             messageLabel.setText("You Won :)");
             keyboard.disableKeyboard();
+            //calculator.updateStats(guessCount);
         } else if (guessCount == maxGuess){
             messageLabel.setText("Answer: " + secretWord);
             keyboard.disableKeyboard();
+            //calculator.updateStats(guessCount);
+        
         }
         guessCount++;
         return result;
