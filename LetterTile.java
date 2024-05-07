@@ -15,14 +15,14 @@ public class LetterTile implements Icon{
     public LetterTile(char letter){
         this.letter = letter;
         setStatus("empty");
-        this.width = 80;
+        this.width = 100;
         this.thickness = 0;
     }
 
     public LetterTile(char letter, String status){
         this.letter = letter;
         setStatus(status);
-        this.width = 80;
+        this.width = 100;
         this.thickness = 0;
     }
 

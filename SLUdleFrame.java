@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -43,10 +44,11 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(80 * wordLength + 240, 100 * (wordLength + 1) + 300));
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 300));
         panel.setBackground(Color.WHITE);
         
         panel.setLayout(new GridBagLayout());
+
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(10, 10, 10, 10);
 
@@ -102,7 +104,9 @@ public class SLUdleFrame extends JFrame {
         c.gridheight = 2;
         panel.add(resetButton, c);
 
-        add(panel);
+        JScrollPane j = new JScrollPane(panel);
+        j.getVerticalScrollBar().setUnitIncrement(10);
+        add(j);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
