@@ -24,6 +24,7 @@ public class SLUdleFrame extends JFrame {
     private boolean isHard;
     private Calculator calculator;
     private JButton resetButton;
+    private JLabel streakLabel;
     
     public SLUdleFrame(String title, SecretWord secretWord, 
     String mode, boolean isHard, ActionListener resetListener,
