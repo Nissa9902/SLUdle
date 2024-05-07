@@ -37,4 +37,5 @@ public class Calculator extends JPanel {
             streak = 0;
             streakLabel.setText("Streak: 0");
         }
+    }
 }
