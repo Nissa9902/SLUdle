@@ -175,11 +175,11 @@ public class SLUdleFrame extends JFrame {
         if(result){
             messageLabel.setText("You Won :)");
             keyboard.disableKeyboard();
-            calculator.updateStats(1);
+            calculator.updateStreak(1);
         } else if (guessCount == maxGuess){
             messageLabel.setText("Answer: " + secretWord);
             keyboard.disableKeyboard();
-            calculator.updateStats(0);
+            calculator.updateStreak(0);
         
         }
         guessCount++;

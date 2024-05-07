@@ -11,7 +11,7 @@ public class Calculator extends JPanel {
         super();
         setLayout(new GridLayout(2, 1));
         guessesLabel = new JLabel("Total Guesses: 0");
-        steakLabel = new Jlabel("Streak: 0");
+        streakLabel = new JLabel("Streak: 0");
         add(guessesLabel);
         add(streakLabel); 
     }
@@ -29,8 +29,8 @@ public class Calculator extends JPanel {
         streakLabel.setText("Streak: 0");
     }
 
-    private void updateStreak(int guess) {
-        if (guess == 1) { 
+    public void updateStreak(int num) {
+        if (num == 1) { 
             streak++;
             streakLabel.setText("Streak: " + streak);
         } else { 
@@ -38,4 +38,5 @@ public class Calculator extends JPanel {
             streakLabel.setText("Streak: 0");
         }
     }
+
 }
