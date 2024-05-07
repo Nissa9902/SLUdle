@@ -43,7 +43,7 @@ public class SLUdleFrame extends JFrame {
         this.found = new char[secretWord.length()];
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 300));
+        panel.setPreferredSize(new Dimension(80 * wordLength + 240, 100 * (wordLength + 1) + 300));
         panel.setBackground(Color.WHITE);
         
         panel.setLayout(new GridBagLayout());
