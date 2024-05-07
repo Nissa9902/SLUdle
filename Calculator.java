@@ -19,7 +19,6 @@ public class Calculator extends JPanel {
     public void updateStats( int guess) {
         totalGuesses += guess;
         guessesLabel.setText("Total Guesses: " + totalGuesses);
-        updateStreak(guess);
         repaint();
     }
 

@@ -170,7 +170,6 @@ public class SLUdleFrame extends JFrame {
         boardPanel.nextRow();
         boardPanel.revalidate();
         boardPanel.repaint();
-        calculator.updateStats(1);
         
         if(result){
             messageLabel.setText("You Won :)");
@@ -183,6 +182,7 @@ public class SLUdleFrame extends JFrame {
         
         }
         guessCount++;
+        calculator.updateStats(1);
         return result;
     }
 
