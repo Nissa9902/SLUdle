@@ -183,7 +183,7 @@ public class SLUdleFrame extends JFrame {
         
         }
         guessCount++;
-        
+        calculator.updateStats(1);
         return result;
     }
 
