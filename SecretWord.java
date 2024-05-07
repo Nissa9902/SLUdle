@@ -14,12 +14,6 @@ public class SecretWord {
     private ArrayList<String> wordBank;
     private List<String> dictionary;
 
-    /* Enumeration to represent game modes
-    public enum GameMode {
-        NORMAL,
-        SLU
-    }*/
-
     // Constructor: Choose a random word from the provided word bank file based on the selected mode
     public SecretWord(String filename) {
         this.wordBank = readWordBank(filename);
@@ -31,20 +25,6 @@ public class SecretWord {
     public int length(){
         return secretWord.length();
     }
-
-    /* Method to choose a random 5-letter word from the word bank file for normal mode
-    private String chooseRandomWord() {
-        if (wordBank.isEmpty()) {
-            System.out.println("Error: Empty word bank.");
-            return ""; // Return an empty string in case of error
-        }
-        Random rand = new Random();
-        String word = "";
-        do {
-            word = wordBank.get(rand.nextInt(wordBank.size()));
-        } while (word.length() != 5); // Ensure the chosen word is 5 letters long
-        return word;
-    }*/
 
     //Method to choose a random SLU-related word from the word bank file for SLU mode
     private String chooseRandomWord(){

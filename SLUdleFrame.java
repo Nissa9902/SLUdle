@@ -23,8 +23,12 @@ public class SLUdleFrame extends JFrame {
     private String mode;
     private boolean isHard;
     private Calculator calculator;
+    private JButton resetButton;
     
-    public SLUdleFrame(String title, SecretWord secretWord, String mode, boolean isHard){
+    public SLUdleFrame(String title, SecretWord secretWord, 
+    String mode, boolean isHard, ActionListener resetListener,
+    Calculator scoreCalculator){
+
         super(title);
         int wordLength = secretWord.length();
 
@@ -37,19 +41,9 @@ public class SLUdleFrame extends JFrame {
         this.inWord = new ArrayList<Character>();
         this.invalid = new ArrayList<Character>();
         this.found = new char[secretWord.length()];
-<<<<<<< HEAD
-        JPanel panel = new JPanel();        
-        
-        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
-        panel.setBackground(Color.WHITE);
-
-        this.boardPanel = new BoardPanel(wordLength, mode);
-        boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
-=======
 
         JPanel panel = new JPanel();
-        Calculator scoreCalculator = new Calculator();
-        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 250));
+        panel.setPreferredSize(new Dimension(100 * wordLength + 240, 100 * (wordLength + 1) + 300));
         panel.setBackground(Color.WHITE);
         
         panel.setLayout(new GridBagLayout());
@@ -57,8 +51,6 @@ public class SLUdleFrame extends JFrame {
         c.insets = new Insets(10, 10, 10, 10);
 
         this.boardPanel = new BoardPanel(wordLength, mode, scoreCalculator);
-        //boardPanel.setPreferredSize(new Dimension(100 * wordLength, 100 * (wordLength + 1)));
->>>>>>> f985459f86b23194e3eeabda3052d5233460893b
         boardPanel.setBackground(Color.WHITE);
 
         c.anchor = GridBagConstraints.CENTER;
@@ -69,6 +61,14 @@ public class SLUdleFrame extends JFrame {
         c.gridwidth = wordLength;
         c.gridheight = wordLength + 1;
         panel.add(boardPanel, c);
+
+        this.messageLabel = new JLabel(" ");
+        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
+
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridheight = 1;
+        panel.add(messageLabel, c);
 
         ActionListener enterListener = new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -81,31 +81,26 @@ public class SLUdleFrame extends JFrame {
         };
         this.keyboard = new Keyboard(boardPanel, enterListener, mode);
 
+        c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
         c.gridwidth = wordLength;
         c.gridheight = 2;
         panel.add(keyboard, c);
-        
-        this.messageLabel = new JLabel(" ");
-        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
-       
-        this.calculator  = new Calculator();
 
-<<<<<<< HEAD
-        panel.add(calculator);
-        panel.add(boardPanel);
-        panel.add(keyboard);
-        panel.add(messageLabel);
-=======
+        this.calculator = scoreCalculator;
         c.gridy = GridBagConstraints.RELATIVE;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridheight = 1;
-        panel.add(messageLabel, c);
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        panel.add(calculator, c);
+        
+        this.resetButton =  new JButton("Reset");
+        resetButton.addActionListener(resetListener);
+        
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        panel.add(resetButton, c);
 
-        //panel.add(boardPanel);
-        //panel.add(keyboard);
-        //panel.add(messageLabel);
->>>>>>> f985459f86b23194e3eeabda3052d5233460893b
         add(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -180,11 +175,11 @@ public class SLUdleFrame extends JFrame {
         if(result){
             messageLabel.setText("You Won :)");
             keyboard.disableKeyboard();
-            //calculator.updateStats(guessCount);
+            calculator.updateStats(1);
         } else if (guessCount == maxGuess){
             messageLabel.setText("Answer: " + secretWord);
             keyboard.disableKeyboard();
-            //calculator.updateStats(guessCount);
+            calculator.updateStats(0);
         
         }
         guessCount++;
@@ -193,7 +188,6 @@ public class SLUdleFrame extends JFrame {
 
     // Method to validate the guessed word
     public boolean validateGuess(LetterTile[] guess) {
-
         //check guess follows hard rules if applicable
         if(isHard){
             boolean hardGuessValid = validateHardMode(guess);
@@ -230,7 +224,7 @@ public class SLUdleFrame extends JFrame {
 
         //guessed word needs to be either in our word bank or dictionary
         if(secretWord.isInDictionary(guessStr) || secretWord.isInBank(guessStr)){
-            this.messageLabel.setText("");
+            this.messageLabel.setText(" ");
             return true;
         } else {
             this.messageLabel.setText("Not a word");

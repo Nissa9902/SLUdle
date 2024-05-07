@@ -4,22 +4,37 @@ import java.awt.*;
 public class Calculator extends JPanel {
     private JLabel guessesLabel;
     private int totalGuesses;
+    private int streak; // variable to track streak
+    private JLabel streakLabel; // variable to displays streak
 
     public Calculator() {
         super();
         setLayout(new GridLayout(2, 1));
         guessesLabel = new JLabel("Total Guesses: 0");
+        steakLabel = new Jlabel("Streak: 0");
         add(guessesLabel);
+        add(streakLabel); 
     }
 
     public void updateStats( int guess) {
         totalGuesses += guess;
         guessesLabel.setText("Total Guesses: " + totalGuesses);
+        updateStreak(guess);
         repaint();
     }
 
-    //public void reset() {
-    //    totalGuesses = 6;
-    //    guessesLabel.setText("Total Guesses: 0");
-    //}
+    public void reset() {
+        totalGuesses = 0;
+        guessesLabel.setText("Total Guesses: 0");
+        streakLabel.setText("Streak: 0");
+    }
+
+    private void updateStreak(int guess) {
+        if (guess == 1) { 
+            streak++;
+            streakLabel.setText("Streak: " + streak);
+        } else { 
+            streak = 0;
+            streakLabel.setText("Streak: 0");
+        }
 }
