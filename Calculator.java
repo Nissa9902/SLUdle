@@ -29,8 +29,8 @@ public class Calculator extends JPanel {
         streakLabel.setText("Streak: 0");
     }
 
-    private void updateStreak(int guess) {
-        if (guess == 1) { 
+    public void updateStreak(int num) {
+        if (num == 1) { 
             streak++;
             streakLabel.setText("Streak: " + streak);
         } else { 
@@ -38,4 +38,5 @@ public class Calculator extends JPanel {
             streakLabel.setText("Streak: 0");
         }
     }
+
 }
