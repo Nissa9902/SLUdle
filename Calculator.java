@@ -11,7 +11,7 @@ public class Calculator extends JPanel {
         super();
         setLayout(new GridLayout(2, 1));
         guessesLabel = new JLabel("Total Guesses: 0");
-        steakLabel = new Jlabel("Streak: 0");
+        streakLabel = new JLabel("Streak: 0");
         add(guessesLabel);
         add(streakLabel); 
     }
