@@ -83,7 +83,7 @@ public class SLUdleFrame extends JFrame {
 
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;
-        c.gridwidth = wordLength;
+        c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridheight = 2;
         panel.add(keyboard, c);
 
@@ -96,6 +96,7 @@ public class SLUdleFrame extends JFrame {
         this.resetButton =  new JButton("Reset");
         resetButton.addActionListener(resetListener);
         
+        c.gridx = GridBagConstraints.RELATIVE;
         c.gridy = GridBagConstraints.RELATIVE;
         c.gridwidth = 1;
         c.gridheight = 2;
@@ -182,7 +183,7 @@ public class SLUdleFrame extends JFrame {
         
         }
         guessCount++;
-        calculator.updateStats(1);
+        
         return result;
     }
 
